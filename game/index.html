@@ -3,17 +3,65 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Block Dodger</title>
+<title>Solmar Nights — an open-world crime game</title>
+<link rel="icon" href="data:,">
 <style>
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #11141b; }
-  #game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  /* Read aloud, never shown: the status line screen readers announce. */
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1a1025; font-family: system-ui, sans-serif; }
+  #game { position: fixed; inset: 0; display: block; touch-action: none; cursor: crosshair; }
   #status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(12, 6, 24, 0.72); z-index: 10; }
+  .hidden { display: none !important; }
+  .panel { background: linear-gradient(160deg, #2b1740, #160b26); border: 2px solid #ffd60a; border-radius: 16px; padding: 32px 40px; max-width: 560px; text-align: center; color: #f5f0ff; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+  .panel h1 { margin: 0 0 4px; font-size: 44px; letter-spacing: 2px; color: #ffd60a; text-transform: uppercase; }
+  .panel h2 { margin: 0 0 12px; font-size: 15px; font-weight: 400; color: #ffb703; letter-spacing: 3px; text-transform: uppercase; }
+  .panel p { font-size: 15px; line-height: 1.55; color: #ddd6ee; }
+  .panel .controls { font-size: 13px; color: #b9aed6; line-height: 1.8; margin: 14px 0 20px; }
+  .panel button { display: block; width: 100%; margin: 8px 0; padding: 13px; font-size: 16px; font-weight: 700; border: none; border-radius: 10px; background: #ffd60a; color: #241233; cursor: pointer; }
+  .panel button:hover { background: #ffe45e; }
+  .panel button.ghost { background: transparent; border: 1px solid #8d7bb5; color: #d9d2ea; font-weight: 500; }
+  .panel button.ghost:hover { border-color: #ffd60a; color: #ffd60a; }
+  .tag { font-size: 12px; color: #8d7bb5; margin-top: 14px; }
 </style>
 </head>
 <body>
-<canvas id="game" aria-label="Block Dodger: move the paddle left and right to dodge falling blocks and catch coins"></canvas>
+<canvas id="game" aria-label="Solmar Nights: an open-world crime game. Explore Solmar City on foot and by car, take on missions and stay ahead of the police."></canvas>
 <p id="status" role="status" aria-live="polite"></p>
+
+<div id="menu-screen" class="overlay">
+  <div class="panel">
+    <h1>Solmar Nights</h1>
+    <h2>An open-world crime story</h2>
+    <p>You are <b>Jax Marlow</b>, a wheelman fresh out of the Solmar docks with empty pockets and a fast reputation. Rico has jobs. Mara has scores. The Solmar PD has your name on a list. Take the jobs, take the cars, take the city — and don't get caught.</p>
+    <div class="controls">
+      WASD / arrows — move &amp; drive &nbsp;•&nbsp; E — steal / enter car<br>
+      Mouse — aim &nbsp;•&nbsp; Click — shoot &nbsp;•&nbsp; F — punch<br>
+      P — pause &nbsp;•&nbsp; H — save &nbsp;•&nbsp; M — mute
+    </div>
+    <button id="btn-new">New Game</button>
+    <button id="btn-continue" class="ghost">Continue</button>
+    <button id="btn-clear-save" class="ghost">Erase Save</button>
+    <div class="tag">An original game. Solmar City, Jax Marlow, Rico and Mara are fictional — no real city, person or game is copied.</div>
+  </div>
+</div>
+
+<div id="pause-screen" class="overlay hidden">
+  <div class="panel">
+    <h1>Paused</h1>
+    <p>Solmar waits for no one — except right now.</p>
+    <button id="btn-resume">Resume</button>
+    <button id="btn-save" class="ghost">Save Game</button>
+    <button id="btn-quit" class="ghost">Quit to Menu</button>
+  </div>
+</div>
+
+<div id="end-screen" class="overlay hidden">
+  <div class="panel">
+    <h1 id="end-title">BUSTED</h1>
+    <p id="end-text"></p>
+    <button id="btn-end">Keep Playing</button>
+  </div>
+</div>
+
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
